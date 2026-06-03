@@ -1,25 +1,6 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 06/02/2026 01:10:41 AM
-// Design Name: 
-// Module Name: Modular_Inversion_State_Machine
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
 
-module Modular_Inversion_State_Machine#(parameter WIDTH = 256)(
+module Interleaved_Modular_Multi #(parameter WIDTH = 256)(
     input  wire             clk,
     input  wire             reset,
     input  wire             start,
@@ -269,4 +250,5 @@ module Modular_Inversion_State_Machine#(parameter WIDTH = 256)(
             endcase
         end
     end
+
 endmodule

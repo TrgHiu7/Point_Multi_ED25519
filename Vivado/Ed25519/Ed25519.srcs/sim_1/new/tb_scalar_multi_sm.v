@@ -1,113 +1,201 @@
-`timescale 1ns / 1ps
+`timescale 1ns/1ps
 
 module tb_scalar_multi_sm;
 
-    parameter WID = 256;
+reg clk;
+reg rst;
+reg start;
 
-    // Clock and reset
-    reg clk;
-    reg rst;
+reg [255:0] k;
 
-    // Inputs to FSM
-    reg start;
-    reg [WID-1:0] k;
-    reg [WID-1:0] px, py;
+reg [255:0] px;
+reg [255:0] py;
+reg [255:0] pz;
+reg [255:0] pt;
 
-    // Outputs from FSM
-    wire done;
-    wire [WID-1:0] result_x, result_y, result_z, result_t;
+wire done;
 
-    // ALU interface wires
-    wire rst_alu;
-    wire start_alu;
-    wire alu_done;
-    wire op_alu;
-    wire [WID-1:0] qx_alu, qy_alu, qz_alu, qt_alu;
-    wire [WID-1:0] px_alu, py_alu, pz_alu, pt_alu;
+//------------------------------------
+// ALU interface
+//------------------------------------
 
-    // Instantiate Scalar Multiplication FSM
-    Scalar_multi_SM uut (
-        .clk(clk),
-        .rst(rst),
-        .start(start),
-        .k(k),
-        .px(px),
-        .py(py),
-        .done(done),
-        .rst_alu(rst_alu),
-        .start_alu(start_alu),
-        .alu_done(alu_done),
-        .op_alu(op_alu),
-        .qx_alu(qx_alu),
-        .qy_alu(qy_alu),
-        .qz_alu(qz_alu),
-        .qt_alu(qt_alu),
-        .px_alu(px_alu),
-        .py_alu(py_alu),
-        .pz_alu(pz_alu),
-        .pt_alu(pt_alu),
-        .result_x(result_x),
-        .result_y(result_y),
-        .result_z(result_z),
-        .result_t(result_t)
-    );
+wire rst_alu;
+wire start_alu;
+wire op_alu;
 
-    // Instantiate Real ALU Unit
-    ALU_UNIT #(
-        .WID(WID),
-        .DEPTH(32),
-        .REG_BANK(5)
-    ) alu_unit_inst (
-        .clk(clk),
-        .rst(rst_alu),
-        .start(start_alu),
-        .op(op_alu),
-        .px(px_alu),
-        .py(py_alu),
-        .pz(pz_alu),
-        .pt(pt_alu),
-        .qx(qx_alu),
-        .qy(qy_alu),
-        .qz(qz_alu),
-        .qt(qt_alu),
-        .done(alu_done)
-    );
+reg alu_done;
 
-    // Clock generation
-    always #5 clk = ~clk; // 100 MHz
+reg [255:0] qx_alu;
+reg [255:0] qy_alu;
+reg [255:0] qz_alu;
+reg [255:0] qt_alu;
 
-    // Test process
-    initial begin
-        $display("[TB] Starting Scalar Multiplication Test...");
+wire [255:0] px_alu;
+wire [255:0] py_alu;
+wire [255:0] pz_alu;
+wire [255:0] pt_alu;
 
-        // Initialize inputs
-        clk = 0;
-        rst = 1;
-        start = 0;
-        k = 256'd105;
-        px = 256'h216936d3cd6e53fec0a4e231fdd6dc5c692cc7609525a7b2c9562d608f25d51a;
-        py = 256'h6666666666666666666666666666666666666666666666666666666666666658;
+//------------------------------------
 
-        #20;
-        rst = 0;
-        #10;
+wire [255:0] result_x;
+wire [255:0] result_y;
+wire [255:0] result_z;
+wire [255:0] result_t;
 
-        // Start scalar multiplication
-        @(posedge clk); start = 1;
-        @(posedge clk); start = 0;
+//------------------------------------
+// DUT
+//------------------------------------
 
-        // Wait for computation to finish
-        wait(done);
-        @(posedge clk);
+Scalar_multi_SM dut(
+    .clk(clk),
+    .rst(rst),
+    .start(start),
 
-        $display("[TB] Scalar multiplication done.");
-        $display("[TB] Result Qx = %h", result_x);
-        $display("[TB] Result Qy = %h", result_y);
-        $display("[TB] Result Qz = %h", result_z);
-        $display("[TB] Result Qt = %h", result_t);
+    .k(k),
 
-        #50;
-        $finish;
+    .px(px),
+    .py(py),
+    .pz(pz),
+    .pt(pt),
+
+    .done(done),
+
+    .rst_alu(rst_alu),
+    .start_alu(start_alu),
+    .op_alu(op_alu),
+
+    .alu_done(alu_done),
+
+    .qx_alu(qx_alu),
+    .qy_alu(qy_alu),
+    .qz_alu(qz_alu),
+    .qt_alu(qt_alu),
+
+    .px_alu(px_alu),
+    .py_alu(py_alu),
+    .pz_alu(pz_alu),
+    .pt_alu(pt_alu),
+
+    .result_x(result_x),
+    .result_y(result_y),
+    .result_z(result_z),
+    .result_t(result_t)
+);
+
+//------------------------------------
+// Clock
+//------------------------------------
+
+always #5 clk = ~clk;
+
+//------------------------------------
+// Fake ALU
+//------------------------------------
+
+always @(posedge clk) begin
+
+    alu_done <= 0;
+
+    if(start_alu) begin
+
+        if(op_alu) begin
+            // DOUBLE
+            qx_alu <= px_alu + 10;
+        end
+        else begin
+            // ADD
+            qx_alu <= px_alu + 1;
+        end
+
+        qy_alu <= 0;
+        qz_alu <= 0;
+        qt_alu <= 0;
+
+        alu_done <= 1;
     end
+end
+
+//------------------------------------
+// Expected model
+//------------------------------------
+
+integer i;
+reg [255:0] expected;
+
+initial begin
+
+    expected = 0;
+
+    // ví dụ scalar = 13 = 1101b
+    k = 256'd13;
+
+    for(i=255;i>=0;i=i-1) begin
+
+        // Double
+        expected = expected + 10;
+
+        // Add
+        if(k[i])
+            expected = expected + 1;
+    end
+end
+
+//------------------------------------
+// Stimulus
+//------------------------------------
+
+initial begin
+
+    clk = 0;
+    rst = 1;
+    start = 0;
+
+    alu_done = 0;
+
+    qx_alu = 0;
+    qy_alu = 0;
+    qz_alu = 0;
+    qt_alu = 0;
+
+    px = 256'd5;
+    py = 256'd6;
+    pz = 256'd7;
+    pt = 256'd8;
+
+    #20;
+    rst = 0;
+
+    #20;
+    start = 1;
+
+    #10;
+    start = 0;
+
+end
+
+//------------------------------------
+// Check result
+//------------------------------------
+
+initial begin
+
+    wait(done);
+
+    #10;
+
+    $display("==================================");
+    $display("EXPECTED = %0d", expected);
+    $display("ACTUAL   = %0d", result_x);
+
+    if(result_x === expected)
+        $display("PASS");
+    else
+        $display("FAIL");
+
+    $display("==================================");
+
+    #20;
+    $finish;
+end
 
 endmodule
