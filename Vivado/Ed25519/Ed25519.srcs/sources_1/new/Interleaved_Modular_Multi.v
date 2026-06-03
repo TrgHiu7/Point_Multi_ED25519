@@ -1,18 +1,18 @@
 `timescale 1ns / 1ps
 
-module Interleaved_Modular_Multi #(parameter WIDTH = 256)(
+module Interleaved_Modular_Multi (
     input  wire             clk,
     input  wire             reset,
     input  wire             start,
-    input  wire [WIDTH-1:0] X,
-    input  wire [WIDTH-1:0] Y,
-    output reg  [WIDTH-1:0] Z,
+    input  wire [255:0] X,
+    input  wire [255:0] Y,
+    output reg  [255:0] Z,
     output reg              done
 );
 
-    localparam NUM_DIGITS = WIDTH / 3;   // 256/3 = 85  (giữ nguyên hành vi cũ: dùng 255 bit)
+    localparam NUM_DIGITS = 85;   // 256/3 = 85  (giữ nguyên hành vi cũ: dùng 255 bit)
     localparam WID        = 260;
-
+    localparam WIDTH      = 256;
     localparam [3:0]
         IDLE          = 4'd0,
         INIT_RAM_PULSE= 4'd1,
@@ -28,16 +28,16 @@ module Interleaved_Modular_Multi #(parameter WIDTH = 256)(
     reg [3:0] state;
     reg [7:0] counter;
 
-    reg [WID-1:0] C_reg, S_reg;
+    reg [259:0] C_reg, S_reg;
 
     // Giữ 255 bit đang xử lý, lấy digit từ MSB [254:252] rồi shift left 3 mỗi vòng
     reg [254:0] X_work;
 
     // Pipeline registers cho datapath
-    reg [WID-1:0] c_shifted_reg, s_shifted_reg;
-    reg [WID-1:0] ram_data_reg, rom_data_reg;
-    reg [WID-1:0] csa1_sum_reg, csa1_carry_reg;
-    reg [WID-1:0] Z_tmp_reg;
+    reg [259:0] c_shifted_reg, s_shifted_reg;
+    reg [259:0] ram_data_reg, rom_data_reg;
+    reg [259:0] csa1_sum_reg, csa1_carry_reg;
+    reg [259:0] Z_tmp_reg;
 
     reg  start_mod;
     wire done_mod;
@@ -50,21 +50,21 @@ module Interleaved_Modular_Multi #(parameter WIDTH = 256)(
     // Combinational wires
     // -------------------------------------------------------------------------
     wire [2:0] digit_sel;
-    wire [WID-1:0] ram_data_ext;
+    wire [259:0] ram_data_ext;
     wire [4:0] high_S, high_C;
     wire [4:0] N_index;
     wire [3:0] sel_comb;
 
-    wire [WID-1:0] c_shifted_w, s_shifted_w;
-    wire [WID-1:0] csa1_sum_w, csa1_carry_w;
-    wire [WID-1:0] csa2_sum_w, csa2_carry_w;
-    wire [WID-1:0] rom_data_comb;
+    wire [259:0] c_shifted_w, s_shifted_w;
+    wire [259:0] csa1_sum_w, csa1_carry_w;
+    wire [259:0] csa2_sum_w, csa2_carry_w;
+    wire [259:0] rom_data_comb;
 
     assign digit_sel   = X_work[254:252];
     assign ram_data_ext = {{(WID-WIDTH){1'b0}}, ram_data_out};
 
-    assign high_S  = S_reg[WID-1:WIDTH-1];  // [259:255]
-    assign high_C  = C_reg[WID-1:WIDTH-1];
+    assign high_S  = S_reg[259:255];  // [259:255]
+    assign high_C  = C_reg[259:255];
     assign N_index = (high_S + high_C) & 5'b0_1111;
     assign sel_comb = N_index[3:0];
 
@@ -84,7 +84,7 @@ module Interleaved_Modular_Multi #(parameter WIDTH = 256)(
     // Precomputed multiples of Y
     // init_en chỉ pulse 1 chu kỳ khi bắt đầu
     // -------------------------------------------------------------------------
-    wire [WIDTH-1:0] ram_data_out;
+    wire [255:0] ram_data_out;
 
     ramY_2 ramY (
         .clk     (clk),

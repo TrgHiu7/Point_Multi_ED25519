@@ -8,7 +8,6 @@ module mod_p_ed25519_seq (
     output reg  [254:0] Z,
     output reg          done
 );
-
     // p = 2^255 - 19
     localparam [254:0] P = 255'h7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFED;
 

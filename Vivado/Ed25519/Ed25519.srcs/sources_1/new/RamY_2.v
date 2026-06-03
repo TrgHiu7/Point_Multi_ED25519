@@ -9,7 +9,6 @@ module ramY_2 (
     output reg  [255:0] data_out,
     output wire        done      // <--- thêm tín hiệu done
 );
-
     reg [255:0] mem [0:7];      // RAM 8 x 256-bit
     reg [255:0] Y_reg;
     reg [2:0]   i;

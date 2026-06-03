@@ -4,7 +4,6 @@ module ROM(
     input  wire [3:0]   sel,
     output reg  [259:0] data
 );
-
     always @(*) begin
         case (sel)
             4'h0 : data = 260'h00000000000000000000000000000000000000000000000000000000000000000;

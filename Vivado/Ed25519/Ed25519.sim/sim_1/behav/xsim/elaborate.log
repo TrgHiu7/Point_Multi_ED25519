@@ -1,8 +1,20 @@
 Vivado Simulator v2022.2
 Copyright 1986-1999, 2001-2022 Xilinx, Inc. All Rights Reserved.
-Running: /home/tronghieu/tools/Xilinx/Vivado/2022.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot tb_regbank_behav xil_defaultlib.tb_regbank xil_defaultlib.glbl -log elaborate.log 
+Running: /home/tronghieu/tools/Xilinx/Vivado/2022.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot tb_Interleaved_Modular_behav xil_defaultlib.tb_Interleaved_Modular xil_defaultlib.glbl -log elaborate.log 
 Using 8 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-ERROR: [VRFC 10-3180] cannot find port 'pt' on this module [/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sim_1/new/tb_regbank.v:33]
-ERROR: [XSIM 43-3322] Static elaboration of top level Verilog design unit(s) in library work failed.
+WARNING: [VRFC 10-3755] too many parameters for module instance 'dut' [/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sim_1/new/tb_Interleaved_Modular.v:17]
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.mod_p_ed25519_seq
+Compiling module xil_defaultlib.ramY_2
+Compiling module xil_defaultlib.ROM
+Compiling module xil_defaultlib.Shift_mod
+Compiling module xil_defaultlib.CSA(WIDTH=260)
+Compiling module xil_defaultlib.Interleaved_Modular_Multi
+Compiling module xil_defaultlib.tb_Interleaved_Modular
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot tb_Interleaved_Modular_behav

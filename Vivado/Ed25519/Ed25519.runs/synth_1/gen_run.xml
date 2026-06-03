@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenRun Id="synth_1" LaunchPart="xc7a100tcsg324-1" LaunchTime="1780451337" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/ECPA_SM.dcp">
-  <File Type="VDS-TIMING-PB" Name="ECPD_SM_timing_summary_synth.pb"/>
-  <File Type="VDS-TIMINGSUMMARY" Name="ECPD_SM_timing_summary_synth.rpt"/>
-  <File Type="RDS-DCP" Name="ECPD_SM.dcp"/>
-  <File Type="RDS-UTIL-PB" Name="ECPD_SM_utilization_synth.pb"/>
-  <File Type="RDS-UTIL" Name="ECPD_SM_utilization_synth.rpt"/>
-  <File Type="RDS-PROPCONSTRS" Name="ECPD_SM_drc_synth.rpt"/>
   <File Type="RDS-RDS" Name="ECPD_SM.vds"/>
   <File Type="REPORTS-TCL" Name="ECPD_SM_reports.tcl"/>
   <File Type="PA-TCL" Name="ECPD_SM.tcl"/>
+  <File Type="RDS-DCP" Name="ECPD_SM.dcp"/>
+  <File Type="RDS-UTIL" Name="ECPD_SM_utilization_synth.rpt"/>
+  <File Type="RDS-UTIL-PB" Name="ECPD_SM_utilization_synth.pb"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PSRCDIR/sources_1/new/ECPD_SM.v">

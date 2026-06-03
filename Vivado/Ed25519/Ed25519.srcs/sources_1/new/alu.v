@@ -1,23 +1,21 @@
 `timescale 1ns / 1ps
 
-module alu #(
-    parameter WID = 256
-)(
+module alu (
     input  wire              clk,
     input  wire              rst,
     input  wire              start,
     input  wire [1:0]        op,       // 00: ADD, 01: SUB, 10: MUL
-    input  wire [WID-1:0]    a,
-    input  wire [WID-1:0]    b,
-    output reg  [WID-1:0]    result,
+    input  wire [255:0]    a,
+    input  wire [255:0]    b,
+    output reg  [255:0]    result,
     output reg               done
 );
-    localparam [WID-1:0] P = 256'h7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFED;
+    localparam [255:0] P = 256'h7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFED;
     // Internal wires for add/sub
-    wire [WID-1:0] result_add, result_sub;
+    wire [255:0] result_add, result_sub;
     
     // Instantiate modular_add (combinational)
-    modular_adder #(.WIDTH(WID)) mod_add (
+    modular_adder  mod_add (
         .A(a),
         .B(b),
         .P(P),
@@ -25,7 +23,7 @@ module alu #(
     );
 
     // Instantiate modular_sub (combinational)
-    modular_sub #(.WIDTH(WID)) mod_sub (
+    modular_sub  mod_sub (
         .A(a),
         .B(b),
         .P(P),
@@ -35,7 +33,7 @@ module alu #(
     // Interleaved multiplier signals
     reg                start_mul;
     wire               done_mul;
-    wire [WID-1:0]     result_mul;
+    wire [255:0]     result_mul;
 
     Interleaved_Modular_Multi mod_mul (
         .clk(clk),
