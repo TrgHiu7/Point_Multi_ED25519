@@ -1,36 +1,4 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/CPA.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module CPA
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/CPA_sub.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module CPA_sub
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/CSA.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module CSA
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/ECPA_SM.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module ECPA_SM
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/ECPD_SM.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module ECPD_SM
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/ROM.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module ROM
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/RamY_2.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module ramY_2
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/Shift_mod.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module Shift_mod
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/alu.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module alu
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/mod_p_ed25519_seq.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module mod_p_ed25519_seq
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/modular_adder.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module modular_adder
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/modular_sub.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module modular_sub
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/regbank.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/regbank.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module regbank
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.srcs/sim_1/new/tb_point_multi_core.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module tb_point_multi_core
-INFO: [VRFC 10-311] analyzing module Scalar_multi_SM
-INFO: [VRFC 10-311] analyzing module ALU_UNIT
-INFO: [VRFC 10-311] analyzing module Interleaved_Modular_Multi
-INFO: [VRFC 10-311] analyzing module invert
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.srcs/sim_1/new/tb_scalar_multi_sm.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module tb_scalar_multi_sm
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module glbl
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sim_1/new/tb_regbank.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_regbank

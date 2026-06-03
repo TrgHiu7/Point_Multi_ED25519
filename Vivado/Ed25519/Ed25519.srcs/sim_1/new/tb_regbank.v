@@ -3,7 +3,6 @@
 module tb_regbank;
 
     // Parameters
-    localparam WID   = 256;
     localparam DEPTH = 32;
     localparam REG_BANK = 5;
 
@@ -12,18 +11,18 @@ module tb_regbank;
     reg rst;
     reg we;
     reg [REG_BANK-1:0] dst_sel;
-    reg [WID-1:0] din;
+    reg [255:0] din;
     reg [REG_BANK-1:0] src1_sel;
     reg [REG_BANK-1:0] src2_sel;
-    reg [WID-1:0] px, py, pz;
-
+    reg [255:0] px, py, pz, pt;
+    
     // Outputs
-    wire [WID-1:0] src1_out;
-    wire [WID-1:0] src2_out;
-    wire [WID-1:0] qx, qy, qz;
+    wire [255:0] src1_out;
+    wire [255:0] src2_out;
+    wire [255:0] qx, qy, qz, qt;
 
     // Instantiate the Unit Under Test (UUT)
-    regbank #(WID, DEPTH, REG_BANK) uut (
+    regbank #(DEPTH, REG_BANK) uut (
         .clk(clk),
         .rst(rst),
         .we(we),
@@ -31,10 +30,10 @@ module tb_regbank;
         .din(din),
         .src1_sel(src1_sel),
         .src2_sel(src2_sel),
-        .px(px), .py(py), .pz(pz),
+        .px(px), .py(py), .pz(pz), .pt(pt),
         .src1_out(src1_out),
         .src2_out(src2_out),
-        .qx(qx), .qy(qy), .qz(qz)
+        .qx(qx), .qy(qy), .qz(qz), .qt(qt)
     );
 
     // Clock generation
@@ -54,7 +53,7 @@ module tb_regbank;
         px = 256'h1111;
         py = 256'h2222;
         pz = 256'h3333;
-
+        pt = 256'h4444;
         // Hold reset to load constants and P
         #12;
         rst = 0;
@@ -62,15 +61,17 @@ module tb_regbank;
         // Wait one cycle after reset
         #10;
 
-        // Check that P(X,Y,Z) loaded to reg[0:2]
-        src1_sel = 0;  #10; $display("reg[0] (px): %h", src1_out);
-        src1_sel = 2;  #10; $display("reg[1] (py): %h", src1_out);
-        src1_sel = 4;  #10; $display("reg[2] (pz): %h", src1_out);
-
+        // Check that P(X,Y,Z,T) loaded to reg[0], reg[1], reg[2], reg[14]
+        src1_sel = 0;   #10; $display("reg[0]  (px): %h", src1_out);
+        src1_sel = 1;   #10; $display("reg[1]  (py): %h", src1_out);
+        src1_sel = 2;   #10; $display("reg[2]  (pz): %h", src1_out);
+        src1_sel = 14;  #10; $display("reg[14] (pt): %h", src1_out);
+        
         // Check that Q(X,Y,Z) is initially 0
         $display("QX: %h", qx);
         $display("QY: %h", qy);
         $display("QZ: %h", qz);
+        $display("QT: %h", qt);
 
         // Check that reg[24] is P and reg[23] is d
         src1_sel = 24;
