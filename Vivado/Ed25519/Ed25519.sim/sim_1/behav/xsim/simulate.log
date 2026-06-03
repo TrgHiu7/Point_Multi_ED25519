@@ -1,0 +1,8 @@
+Time resolution is 1 ps
+[TB] Starting Scalar Multiplication Test...
+[TB] Scalar multiplication done.
+[TB] Result Qx = 216936d3cd6e53fec0a4e231fdd6dc5c692cc7609525a7b2c9562d608f25d583
+[TB] Result Qy = 66666666666666666666666666666666666666666666666666666666666666c1
+[TB] Result Qz = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+[TB] Result Qt = 0000000000000000000000000000000000000000000000000000000000000000
+$finish called at time : 115 ns : File "/home/tronghieu/vivado-workspace/HW/Point_multi_Ed25519/Vivado/Ed25519/Ed25519.srcs/sim_1/new/tb_scalar_multi_sm.v" Line 110
