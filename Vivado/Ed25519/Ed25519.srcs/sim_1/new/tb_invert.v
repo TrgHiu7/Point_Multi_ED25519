@@ -2,60 +2,94 @@
 
 module tb_invert;
 
-    parameter WID = 256;
-
     // Inputs
     reg clk;
     reg rst;
     reg start;
-    reg [WID-1:0] a;
+    reg [255:0] a;
 
     // Outputs
+    wire [255:0] result;
     wire done;
-    wire [WID-1:0] a_inv;
 
-    // Clock generation
-    always #5 clk = ~clk;
-
-    // Instantiate the invert module
-    invert #(.WID(WID)) uut (
+    // Instantiate the Unit Under Test (UUT)
+    invert uut (
         .clk(clk),
         .rst(rst),
         .start(start),
         .a(a),
-        .done(done),
-        .result(a_inv)
+        .result(result),
+        .done(done)
     );
 
-    // Test logic
+    // Clock generation (100MHz)
     initial begin
-        $display("Starting invert testbench...");
-
-        // Initialize signals
         clk = 0;
+        forever #5 clk = ~clk;
+    end
+
+    // Test sequence
+    initial begin
+        // Initialize Inputs
         rst = 1;
         start = 0;
         a = 0;
 
-        // Apply reset
+        // Reset hệ thống
         #20;
         rst = 0;
+        #20;
+
+        // =============================================================
+        // TEST CASE 1: a = 1
+        // Expected = 1
+        // =============================================================
+        $display("---------------------------------------------------------");
+        $display("[TEST 1] Tinh nghich dao Modulo P cho a = 1...");
+        a = 256'd1;
+        
+        start = 1;
         #10;
+        start = 0;
 
-        // Test case: a = 5 (can replace with random value)
-        a = 256'd5;
+        wait(done == 1'b1);
+        
+        $display(">> Ket qua Test 1: %h", result);
+        if (result == 256'd1) begin
+            $display(">> TEST 1 PASSED!");
+        end else begin
+            $display(">> TEST 1 FAILED! Expected: 1");
+        end
+        
+        #50; // Chờ 1 chút giữa 2 test case
 
-        // Start inversion
-        @(posedge clk); start = 1;
-        @(posedge clk); start = 0;
+        // =============================================================
+        // TEST CASE 2: a = 2
+        // Expected = (P+1)/2 = 2^254 - 9 
+        // Hex = 3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7
+        // =============================================================
+        $display("---------------------------------------------------------");
+        $display("[TEST 2] Tinh nghich dao Modulo P cho a = 2...");
+        $display(">> Vui long doi... (Thuat toan se chay hang nghin cycle)");
+        a = 256'd2;
+        
+        start = 1;
+        #10;
+        start = 0;
 
-        // Wait for done signal
-        wait (done == 1);
-        @(posedge clk);
+        wait(done == 1'b1);
+        
+        $display(">> Ket qua Test 2: %h", result);
+        if (result == 256'h3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7) begin
+            $display(">> TEST 2 PASSED! Ket qua chinh xac tuyet doi!");
+        end else begin
+            $display(">> TEST 2 FAILED!");
+            $display(">> Expected      : 3ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7");
+        end
+        $display("---------------------------------------------------------");
 
-        $display("a      = %h", a);
-        $display("a_inv  = %h", a_inv);
-
+        // Hoàn thành mô phỏng
+        #100;
         $finish;
     end
 

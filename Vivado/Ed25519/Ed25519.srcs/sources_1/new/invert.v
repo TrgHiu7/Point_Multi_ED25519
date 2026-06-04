@@ -1,17 +1,15 @@
 `timescale 1ns / 1ps
 
-module invert #(parameter WID = 256) (
+module invert(
     input  wire           clk,
     input  wire           rst,
     input  wire           start,
-    input  wire [WID-1:0] a,
-    output wire [WID-1:0] result,
+    input  wire [255:0] a,
+    output wire [255:0] result,
     output reg            done
 );
-
     localparam
         IDLE              = 6'd0,
-
         CALC_A2_START     = 6'd1,
         CALC_A2_WAIT      = 6'd2,
         CALC_A4_START     = 6'd3,
@@ -45,10 +43,9 @@ module invert #(parameter WID = 256) (
         DONE_ST           = 6'd31;
 
     reg [5:0] state, next_state;
-
-    reg  [WID-1:0] op_a, op_b;
+    reg  [255:0] op_a, op_b;
     reg            mul_start;
-    wire [WID-1:0] mul_result;
+    wire [255:0] mul_result;
     wire           mul_done;
 
     Interleaved_Modular_Multi multiplier (
@@ -61,12 +58,19 @@ module invert #(parameter WID = 256) (
         .done(mul_done)
     );
 
-    reg [WID-1:0] r_a2, r_a4, r_a8, r_a9, r_a11, r_a22;
-    reg [WID-1:0] r_a2_5_1, r_a2_10_1, r_a2_20_1, r_a2_50_1, r_a2_100_1, r_a2_250_1;
-    reg [WID-1:0] r_t;
-
+    reg [255:0] r_a2, r_a4, r_a8, r_a9, r_a11, r_a22;
+    reg [255:0] r_a2_5_1;
+    reg [255:0] r_a2_10_1;
+    reg [255:0] r_a2_20_1;
+    reg [255:0] r_a2_40_1;
+    reg [255:0] r_a2_50_1;
+    reg [255:0] r_a2_100_1;
+    reg [255:0] r_a2_200_1;
+    reg [255:0] r_a2_250_1;
+    reg [255:0] r_t;
     reg [6:0] counter;
-    reg [WID-1:0] result_reg;
+    reg [255:0] result_reg;
+
     assign result = result_reg;
 
     // state register
@@ -82,28 +86,20 @@ module invert #(parameter WID = 256) (
         next_state = state;
         case (state)
             IDLE:               if (start)    next_state = CALC_A2_START;
-
             CALC_A2_START:                      next_state = CALC_A2_WAIT;
             CALC_A2_WAIT:      if (mul_done)  next_state = CALC_A4_START;
-
             CALC_A4_START:                      next_state = CALC_A4_WAIT;
             CALC_A4_WAIT:      if (mul_done)  next_state = CALC_A8_START;
-
             CALC_A8_START:                      next_state = CALC_A8_WAIT;
             CALC_A8_WAIT:      if (mul_done)  next_state = CALC_A9_START;
-
             CALC_A9_START:                      next_state = CALC_A9_WAIT;
             CALC_A9_WAIT:      if (mul_done)  next_state = CALC_A11_START;
-
             CALC_A11_START:                     next_state = CALC_A11_WAIT;
             CALC_A11_WAIT:     if (mul_done)  next_state = CALC_A22_START;
-
             CALC_A22_START:                     next_state = CALC_A22_WAIT;
             CALC_A22_WAIT:     if (mul_done)  next_state = CALC_2_5_1_START;
-
             CALC_2_5_1_START:                   next_state = CALC_2_5_1_WAIT;
-            CALC_2_5_1_WAIT:  if (mul_done)   next_state = CALC_2_10_1_START;
-
+            CALC_2_5_1_WAIT:   if (mul_done)  next_state = CALC_2_10_1_START;
             CALC_2_10_1_START:                  next_state = CALC_2_10_1_WAIT;
             CALC_2_10_1_WAIT: begin
                 if (mul_done) begin
@@ -113,7 +109,6 @@ module invert #(parameter WID = 256) (
                         next_state = CALC_2_20_1_START;
                 end
             end
-
             CALC_2_20_1_START:                  next_state = CALC_2_20_1_WAIT;
             CALC_2_20_1_WAIT: begin
                 if (mul_done) begin
@@ -123,9 +118,9 @@ module invert #(parameter WID = 256) (
                         next_state = CALC_2_40_1_START;
                 end
             end
-
             CALC_2_40_1_START:                  next_state = CALC_2_40_1_WAIT;
             CALC_2_40_1_WAIT: begin
+                // ĐÃ SỬA LỖI TẠI ĐÂY: Xoá lệnh gán Sequential, chỉ giữ lại Next State logic
                 if (mul_done) begin
                     if (counter < 20)
                         next_state = CALC_2_40_1_START;
@@ -133,7 +128,6 @@ module invert #(parameter WID = 256) (
                         next_state = CALC_2_50_1_START;
                 end
             end
-
             CALC_2_50_1_START:                  next_state = CALC_2_50_1_WAIT;
             CALC_2_50_1_WAIT: begin
                 if (mul_done) begin
@@ -143,7 +137,6 @@ module invert #(parameter WID = 256) (
                         next_state = CALC_2_100_1_START;
                 end
             end
-
             CALC_2_100_1_START:                 next_state = CALC_2_100_1_WAIT;
             CALC_2_100_1_WAIT: begin
                 if (mul_done) begin
@@ -153,7 +146,6 @@ module invert #(parameter WID = 256) (
                         next_state = CALC_2_200_1_START;
                 end
             end
-
             CALC_2_200_1_START:                 next_state = CALC_2_200_1_WAIT;
             CALC_2_200_1_WAIT: begin
                 if (mul_done) begin
@@ -163,7 +155,6 @@ module invert #(parameter WID = 256) (
                         next_state = CALC_2_250_1_START;
                 end
             end
-
             CALC_2_250_1_START:                 next_state = CALC_2_250_1_WAIT;
             CALC_2_250_1_WAIT: begin
                 if (mul_done) begin
@@ -173,7 +164,6 @@ module invert #(parameter WID = 256) (
                         next_state = INV_A_START;
                 end
             end
-
             INV_A_START:                        next_state = INV_A_WAIT;
             INV_A_WAIT: begin
                 if (mul_done) begin
@@ -183,9 +173,7 @@ module invert #(parameter WID = 256) (
                         next_state = DONE_ST;
                 end
             end
-
             DONE_ST:                            next_state = IDLE;
-
             default:                            next_state = IDLE;
         endcase
     end
@@ -195,32 +183,32 @@ module invert #(parameter WID = 256) (
         if (rst) begin
             mul_start   <= 1'b0;
             done        <= 1'b0;
-            op_a        <= {WID{1'b0}};
-            op_b        <= {WID{1'b0}};
-            r_a2        <= {WID{1'b0}};
-            r_a4        <= {WID{1'b0}};
-            r_a8        <= {WID{1'b0}};
-            r_a9        <= {WID{1'b0}};
-            r_a11       <= {WID{1'b0}};
-            r_a22       <= {WID{1'b0}};
-            r_a2_5_1    <= {WID{1'b0}};
-            r_a2_10_1   <= {WID{1'b0}};
-            r_a2_20_1   <= {WID{1'b0}};
-            r_a2_50_1   <= {WID{1'b0}};
-            r_a2_100_1  <= {WID{1'b0}};
-            r_a2_250_1  <= {WID{1'b0}};
-            r_t         <= {WID{1'b0}};
+            op_a        <= 0;
+            op_b        <= 0;
+            r_a2        <= 0;
+            r_a4        <= 0;
+            r_a8        <= 0;
+            r_a9        <= 0;
+            r_a11       <= 0;
+            r_a22       <= 0;
+            r_a2_5_1    <= 0;
+            r_a2_10_1   <= 0;
+            r_a2_20_1   <= 0;
+            r_a2_40_1   <= 0;
+            r_a2_50_1   <= 0;
+            r_a2_100_1  <= 0;
+            r_a2_200_1  <= 0;
+            r_a2_250_1  <= 0;
+            r_t         <= 0;
             counter     <= 7'd0;
-            result_reg  <= {WID{1'b0}};
+            result_reg  <= 0;
         end else begin
             mul_start <= 1'b0;
             done      <= 1'b0;
-
             case (state)
                 IDLE: begin
                     counter <= 7'd0;
                 end
-
                 CALC_A2_START: begin
                     mul_start <= 1'b1;
                     op_a <= a;
@@ -229,7 +217,6 @@ module invert #(parameter WID = 256) (
                 CALC_A2_WAIT: begin
                     if (mul_done) r_a2 <= mul_result;
                 end
-
                 CALC_A4_START: begin
                     mul_start <= 1'b1;
                     op_a <= r_a2;
@@ -238,7 +225,6 @@ module invert #(parameter WID = 256) (
                 CALC_A4_WAIT: begin
                     if (mul_done) r_a4 <= mul_result;
                 end
-
                 CALC_A8_START: begin
                     mul_start <= 1'b1;
                     op_a <= r_a4;
@@ -247,7 +233,6 @@ module invert #(parameter WID = 256) (
                 CALC_A8_WAIT: begin
                     if (mul_done) r_a8 <= mul_result;
                 end
-
                 CALC_A9_START: begin
                     mul_start <= 1'b1;
                     op_a <= r_a8;
@@ -256,7 +241,6 @@ module invert #(parameter WID = 256) (
                 CALC_A9_WAIT: begin
                     if (mul_done) r_a9 <= mul_result;
                 end
-
                 CALC_A11_START: begin
                     mul_start <= 1'b1;
                     op_a <= r_a9;
@@ -265,7 +249,6 @@ module invert #(parameter WID = 256) (
                 CALC_A11_WAIT: begin
                     if (mul_done) r_a11 <= mul_result;
                 end
-
                 CALC_A22_START: begin
                     mul_start <= 1'b1;
                     op_a <= r_a11;
@@ -274,7 +257,6 @@ module invert #(parameter WID = 256) (
                 CALC_A22_WAIT: begin
                     if (mul_done) r_a22 <= mul_result;
                 end
-
                 CALC_2_5_1_START: begin
                     mul_start <= 1'b1;
                     op_a <= r_a22;
@@ -287,7 +269,6 @@ module invert #(parameter WID = 256) (
                         counter  <= 7'd0;
                     end
                 end
-
                 CALC_2_10_1_START: begin
                     mul_start <= 1'b1;
                     if (counter < 5) begin
@@ -309,7 +290,6 @@ module invert #(parameter WID = 256) (
                         end
                     end
                 end
-
                 CALC_2_20_1_START: begin
                     mul_start <= 1'b1;
                     if (counter < 10) begin
@@ -331,7 +311,6 @@ module invert #(parameter WID = 256) (
                         end
                     end
                 end
-
                 CALC_2_40_1_START: begin
                     mul_start <= 1'b1;
                     if (counter < 20) begin
@@ -351,7 +330,6 @@ module invert #(parameter WID = 256) (
                             counter <= 7'd0;
                     end
                 end
-
                 CALC_2_50_1_START: begin
                     mul_start <= 1'b1;
                     if (counter < 10) begin
@@ -373,7 +351,6 @@ module invert #(parameter WID = 256) (
                         end
                     end
                 end
-
                 CALC_2_100_1_START: begin
                     mul_start <= 1'b1;
                     if (counter < 50) begin
@@ -395,7 +372,6 @@ module invert #(parameter WID = 256) (
                         end
                     end
                 end
-
                 CALC_2_200_1_START: begin
                     mul_start <= 1'b1;
                     if (counter < 100) begin
@@ -416,7 +392,6 @@ module invert #(parameter WID = 256) (
                         end
                     end
                 end
-
                 CALC_2_250_1_START: begin
                     mul_start <= 1'b1;
                     if (counter < 50) begin
@@ -438,7 +413,6 @@ module invert #(parameter WID = 256) (
                         end
                     end
                 end
-
                 INV_A_START: begin
                     mul_start <= 1'b1;
                     if (counter < 5) begin
@@ -459,11 +433,9 @@ module invert #(parameter WID = 256) (
                         end
                     end
                 end
-
                 DONE_ST: begin
                     done <= 1'b1;
                 end
-
                 default: begin
                 end
             endcase

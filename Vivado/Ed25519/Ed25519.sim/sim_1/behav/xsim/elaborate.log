@@ -1,10 +1,21 @@
 Vivado Simulator v2022.2
 Copyright 1986-1999, 2001-2022 Xilinx, Inc. All Rights Reserved.
-Running: /home/tronghieu/tools/Xilinx/Vivado/2022.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot tb_Interleaved_Modular_behav xil_defaultlib.tb_Interleaved_Modular xil_defaultlib.glbl -log elaborate.log 
+Running: /home/tronghieu/tools/Xilinx/Vivado/2022.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot tb_invert_behav xil_defaultlib.tb_invert xil_defaultlib.glbl -log elaborate.log 
 Using 8 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-3755] too many parameters for module instance 'dut' [/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sim_1/new/tb_Interleaved_Modular.v:17]
+WARNING: [VRFC 10-2861] module 'CSA' does not have a parameter named WIDTH [/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/Interleaved_Modular_Multi.v:123]
+WARNING: [VRFC 10-2861] module 'CSA' does not have a parameter named WIDTH [/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/Interleaved_Modular_Multi.v:134]
+WARNING: [VRFC 10-3091] actual bit length 260 differs from formal bit length 256 for port 'in1' [/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/Interleaved_Modular_Multi.v:124]
+WARNING: [VRFC 10-3091] actual bit length 260 differs from formal bit length 256 for port 'in2' [/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/Interleaved_Modular_Multi.v:125]
+WARNING: [VRFC 10-3091] actual bit length 260 differs from formal bit length 256 for port 'in3' [/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/Interleaved_Modular_Multi.v:126]
+WARNING: [VRFC 10-3091] actual bit length 260 differs from formal bit length 256 for port 'sum' [/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/Interleaved_Modular_Multi.v:127]
+WARNING: [VRFC 10-3091] actual bit length 260 differs from formal bit length 256 for port 'carry' [/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/Interleaved_Modular_Multi.v:128]
+WARNING: [VRFC 10-3091] actual bit length 260 differs from formal bit length 256 for port 'in1' [/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/Interleaved_Modular_Multi.v:135]
+WARNING: [VRFC 10-3091] actual bit length 260 differs from formal bit length 256 for port 'in2' [/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/Interleaved_Modular_Multi.v:136]
+WARNING: [VRFC 10-3091] actual bit length 260 differs from formal bit length 256 for port 'in3' [/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/Interleaved_Modular_Multi.v:137]
+WARNING: [VRFC 10-3091] actual bit length 260 differs from formal bit length 256 for port 'sum' [/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/Interleaved_Modular_Multi.v:138]
+WARNING: [VRFC 10-3091] actual bit length 260 differs from formal bit length 256 for port 'carry' [/home/tronghieu/vivado-workspace/HW/Point_Multi_ED25519/Vivado/Ed25519/Ed25519.srcs/sources_1/new/Interleaved_Modular_Multi.v:139]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis
@@ -13,8 +24,9 @@ Compiling module xil_defaultlib.mod_p_ed25519_seq
 Compiling module xil_defaultlib.ramY_2
 Compiling module xil_defaultlib.ROM
 Compiling module xil_defaultlib.Shift_mod
-Compiling module xil_defaultlib.CSA(WIDTH=260)
+Compiling module xil_defaultlib.CSA
 Compiling module xil_defaultlib.Interleaved_Modular_Multi
-Compiling module xil_defaultlib.tb_Interleaved_Modular
+Compiling module xil_defaultlib.invert
+Compiling module xil_defaultlib.tb_invert
 Compiling module xil_defaultlib.glbl
-Built simulation snapshot tb_Interleaved_Modular_behav
+Built simulation snapshot tb_invert_behav

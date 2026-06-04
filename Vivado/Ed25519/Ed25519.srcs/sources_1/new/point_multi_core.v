@@ -1,17 +1,15 @@
 `timescale 1ns / 1ps
 
-module point_multi_core #(
-    parameter WID = 256
-)(
+module point_multi_core(
     input  wire           clk,
     input  wire           rst,
     input  wire           start,
     input  wire           valid,
-    input  wire [WID-1:0] k,
-    input  wire [WID-1:0] px,
-    input  wire [WID-1:0] py,
-    output reg  [WID-1:0] qx,
-    output reg  [WID-1:0] qy,
+    input  wire [255:0] k,
+    input  wire [255:0] px,
+    input  wire [255:0] py,
+    output reg  [255:0] qx,
+    output reg  [255:0] qy,
     output reg            done,
     output reg            ready
 );
@@ -32,31 +30,31 @@ module point_multi_core #(
 
     reg [3:0] state;
 
-    reg [WID-1:0] Z_qx, Z_qy;
+    reg [255:0] Z_qx, Z_qy;
 
     reg rst_SMSM;
     reg start_SMSM;
-    reg [WID-1:0] pt;
+    reg [255:0] pt;
 
     wire SMSM_done;
-    wire [WID-1:0] result_x, result_y, result_z, result_t;
+    wire [255:0] result_x, result_y, result_z, result_t;
 
     wire rst_alu;
     wire start_alu;
     wire alu_done;
     wire op_alu;
-    wire [WID-1:0] qx_alu, qy_alu, qz_alu, qt_alu;
-    wire [WID-1:0] px_alu, py_alu, pz_alu, pt_alu;
+    wire [255:0] qx_alu, qy_alu, qz_alu, qt_alu;
+    wire [255:0] px_alu, py_alu, pz_alu, pt_alu;
 
     reg rst_mul;
-    reg [WID-1:0] X, Y;
-    wire [WID-1:0] Z;
+    reg [255:0] X, Y;
+    wire [255:0] Z;
     wire mul_done;
     reg start_mul;
 
     reg rst_inv;
-    reg [WID-1:0] a;
-    wire [WID-1:0] a_inv;
+    reg [255:0] a;
+    wire [255:0] a_inv;
     reg start_inv;
     wire inv_done;
 
@@ -64,9 +62,9 @@ module point_multi_core #(
     wire fire;
     
     assign inputs_valid =
-           (k  != {WID{1'b0}}) &&
-           (px != {WID{1'b0}}) &&
-           (py != {WID{1'b0}});
+           (k  != 0) &&
+           (px != 0) &&
+           (py != 0);
     
     assign fire = start & valid & ready;
 
@@ -99,7 +97,6 @@ module point_multi_core #(
     );
 
     ALU_UNIT #(
-        .WID(WID),
         .DEPTH(32),
         .REG_BANK(5)
     ) alu_unit (
@@ -128,7 +125,7 @@ module point_multi_core #(
         .done(mul_done)
     );
 
-    invert #(.WID(WID)) inv_unit (
+    invert  inv_unit (
         .clk(clk),
         .rst(rst_inv),
         .start(start_inv),
@@ -198,16 +195,16 @@ module point_multi_core #(
             start_mul  <= 1'b0;
             start_SMSM <= 1'b0;
             start_inv  <= 1'b0;
-            X          <= {WID{1'b0}};
-            Y          <= {WID{1'b0}};
-            pt         <= {WID{1'b0}};
-            a          <= {WID{1'b0}};
+            X          <= 0;
+            Y          <= 0;
+            pt         <= 0;
+            a          <= 0;
             done       <= 1'b0;
             ready      <= 1'b0;
-            qx         <= {WID{1'b0}};
-            qy         <= {WID{1'b0}};
-            Z_qx       <= {WID{1'b0}};
-            Z_qy       <= {WID{1'b0}};
+            qx         <= 0;
+            qy         <= 0;
+            Z_qx       <= 0;
+            Z_qy       <= 0;
         end else begin
             // mặc định mỗi chu kỳ
             start_mul  <= 1'b0;

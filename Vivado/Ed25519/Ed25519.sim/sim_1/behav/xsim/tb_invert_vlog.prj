@@ -5,8 +5,9 @@ verilog xil_defaultlib  \
 "../../../../Ed25519.srcs/sources_1/new/ROM.v" \
 "../../../../Ed25519.srcs/sources_1/new/RamY_2.v" \
 "../../../../Ed25519.srcs/sources_1/new/Shift_mod.v" \
+"../../../../Ed25519.srcs/sources_1/new/invert.v" \
 "../../../../Ed25519.srcs/sources_1/new/mod_p_ed25519_seq.v" \
-"../../../../Ed25519.srcs/sim_1/new/tb_Interleaved_Modular.v" \
+"../../../../Ed25519.srcs/sim_1/new/tb_invert.v" \
 
 # compile glbl module
 verilog xil_defaultlib "glbl.v"
